@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+    <head>
+        <title> Verbose Example </title>
+        <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'> </script>
+        <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        <script type="text/javascript" src="../d3.v2.js"> </script>
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <meta charset="UTF-8">
+        <style type="text/css">
+          html, body, #map_canvas {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+          }
+          .results {
+              font-family: monospace;
+          }
+
+        </style>
+    </head>
+    <body>
+        <div id="result"></div>
+        <script type="text/javascript">
+        var results = [];
+        $(document).ready(function() {
+            var request = { size: 10, query: { match_all: {}}};
+            $.ajax({
+                url: "http://localhost:9200/devices/devices/_search",
+                type: "POST",
+                data: JSON.stringify(request),
+                dataType: "json",
+                beforeSend: function(x) {
+                    if ( x && x.overrideMimeType) {
+                        x.overrideMimeType("application/j-son;charset=UTF-8");
+                    }
+                },
+                success: function(data) {
+                    data.hits.hits.forEach(function(x) {
+                        results.push(x._source);
+                    });
+                    var table = d3.select("#result").append("table").attr("class","results");
+                    table.append("tr").selectAll("td").data(["Name","Model"]).enter().append("td").text(function (d) { return d; } );
+                    var tr = table.selectAll("tr").data(results).enter().append("tr");
+                    var td = tr.selectAll("td").data(function(d) { return [d.name, d.model]; })
+                        .enter().append("td")
+                        .text(function(d) { return d; });
+
+
+                }
+            })
+        });
+
+                    
+        </script>
+
+    </body>
+</html>
+

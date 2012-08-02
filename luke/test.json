@@ -1,0 +1,32 @@
+{
+   "nodes":[
+   {
+      "name": "super",
+      "x":10,
+      "y":20
+   },
+   {
+      "name": "other",
+      "x":200,
+      "y":80
+   },
+   {
+      "name": "third",
+      "x":40,
+      "y":100
+   }
+],
+   "links":
+      [
+         {
+            "label":"path",
+            "source":"super",
+            "target":"other"
+         },
+         {
+            "label":"path",
+            "source":"super",
+            "target":"third"
+         }
+      ]
+}

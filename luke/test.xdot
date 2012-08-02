@@ -1,0 +1,7 @@
+digraph G {
+	node [label="\N", fontsize=10, fontname="sans-serif"];
+	graph [bb="0,0,64,126"];
+	First [href="http://lukecampbell.github.com/", pos="32,108", width="0.75", height="0.5"];
+	Second [pos="32,18", width="0.89105", height="0.5"];
+	First -> Second [label=has, pos="e,32,36.05 32,89.614 32,77.24 32,60.369 32,46.22", lp="41.331,63"];
+}

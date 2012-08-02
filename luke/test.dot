@@ -1,0 +1,10 @@
+digraph G {
+node [
+   fontsize=10
+   fontname="sans-serif"
+];
+First [href="http://lukecampbell.github.com/" ];
+Third [super_href="http://blah.com"];
+Second;
+First -> Second [label="has"];
+}

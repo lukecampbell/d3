@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+    <head>
+        <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'> </script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <style type="text/css">
+      html, body, #map_canvas {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+      #map_canvas { 
+      }
+    </style>
+    <title>Building Bounding Boxes</title>
+    </head>
+
+    <body>
+        <div id="map_canvas"></div>
+        <script type="text/javascript">
+            function initialize() {
+                var rectangle;
+                var rbuffer = null;
+
+                var mapOptions = {
+                    zoom: 5,
+                    center: new google.maps.LatLng(41,-71),
+                    mapTypeId: google.maps.MapTypeId.SATELLITE
+                };
+
+                var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+                rectangle = new google.maps.Rectangle();
+                var boundsCache = {
+                    sw : null,
+                    ne : null
+                };
+                google.maps.event.addListener(map, 'click', function(x) {
+                    var span = map.getBounds().toSpan();
+                    var upper = new google.maps.LatLng(span.lat() * 0.15 + x.latLng.lat(), span.lng() * 0.15 + x.latLng.lng())
+                    var rectBounds = new google.maps.LatLngBounds(x.latLng, upper);
+                    var rectOptions = {
+                        strokeColor: "#0000FF",
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: "#0000FF",
+                        fillOpacity: 0.35,
+                        map: map,
+                        bounds: rectBounds,
+                        editable: true,
+                        visible: true,
+                        clickable: true
+                    };
+                    rectangle.setOptions(rectOptions);
+
+                    google.maps.event.addListener(rectangle,'rightclick', function(x) {
+                        if(rbuffer != x)
+                        {
+                            console.debug(rectangle.getBounds());
+                            rbuffer = x;
+                        }
+                    });
+                    google.maps.event.addListener(rectangle,'click', function(x) {
+                            rectangle.setVisible(false);
+                    });
+                });
+            }
+            $(document).ready(initialize);
+        </script>
+    </body>
+
+</html> 
