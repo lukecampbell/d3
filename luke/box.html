@@ -58,6 +58,10 @@
                     google.maps.event.addListener(rectangle,'rightclick', function(x) {
                         if(rbuffer != x)
                         {
+                            var bounds = rectangle.getBounds();
+                            var sw = bounds.getSouthWest();
+                            var ne = bounds.getNorthEast();
+                            copyToClipboard("[" + ne.lat() + "," + sw.lng() + "," + sw.lat() + "," + ne.lng() + "]");
                             console.debug(rectangle.getBounds());
                             rbuffer = x;
                         }
@@ -67,6 +71,11 @@
                     });
                 });
             }
+
+            function copyToClipboard (text) {
+                window.prompt ("Copy to clipboard: Ctrl+C, Enter", text);
+            }
+
             $(document).ready(initialize);
         </script>
     </body>
